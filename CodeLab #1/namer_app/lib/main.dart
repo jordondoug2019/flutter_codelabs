@@ -56,50 +56,122 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+// ...
+
+class MyHomePage extends StatefulWidget {
+  @override
+  //Extemds state and can therefore manage its own values (It can change itself)
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var selectedIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    // ...
+
+Widget page;
+switch (selectedIndex) {
+  case 0:
+    page = GeneratorPage();
+    break;
+  case 1:
+    page = Placeholder();
+    break;
+  default:
+    throw UnimplementedError('no widget for $selectedIndex');
+}
+
+// ...
+    return Scaffold(
+      body: Row(
+        children: [
+          SafeArea(
+            //SafeArea ensures the child is not obscured by a hardware notch or status bar
+            //It wraps around the NavigationRail to prevent the navigation buttons from being obscured by a mobile status bar
+            child: NavigationRail(
+              extended: true, //Shows the labels next to the icon
+              destinations: [
+                NavigationRailDestination(
+                  icon: Icon(Icons.home),
+                  label: Text('Home'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.favorite),
+                  label: Text('Favorites'),
+                ),
+              ],
+              selectedIndex:
+                  selectedIndex, //selects the first destination, index of 1 selects the second destination
+              onDestinationSelected: (value) {
+                //Tells what happens when the user selects a destination
+                setState(() {
+                  selectedIndex = value;
+                });
+                
+              },
+            ),
+          ),
+          Expanded(
+            //let you express layouts where some children take only as much space as they need
+            //expanded=takes up space
+            //Two Expanded widgets split all the available horizontal space between themselves
+            child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: page,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     var pair = appState.current;
-      IconData icon;
+
+    IconData icon;
     if (appState.favorites.contains(pair)) {
       icon = Icons.favorite;
     } else {
       icon = Icons.favorite_border;
     }
 
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('A random AWESOME idea:'),
-            BigCard(pair: pair),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    appState.toggleFavorite();
-                  },
-                  icon: Icon(icon),
-                  label: Text('Like'),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    appState.getNext();
-                  },
-                  child: Text('Next'),
-                ),
-              ],
-            ),
-          ],
-        ),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          BigCard(pair: pair),
+          SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  appState.toggleFavorite();
+                },
+                icon: Icon(icon),
+                label: Text('Like'),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: Text('Next'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
+
+// ...
 
 class BigCard extends StatelessWidget {
   const BigCard({
