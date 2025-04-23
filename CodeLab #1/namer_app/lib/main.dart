@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -70,60 +73,61 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     // ...
 
-Widget page;
-switch (selectedIndex) {
-  case 0:
-    page = GeneratorPage();
-    break;
-  case 1:
-    page = Placeholder();
-    break;
-  default:
-    throw UnimplementedError('no widget for $selectedIndex');
-}
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = GeneratorPage();
+        break;
+      case 1:
+        page = FavoritesPage();
+        break;
+      default:
+        throw UnimplementedError('no widget for $selectedIndex');
+    }
 
 // ...
-    return Scaffold(
-      body: Row(
-        children: [
-          SafeArea(
-            //SafeArea ensures the child is not obscured by a hardware notch or status bar
-            //It wraps around the NavigationRail to prevent the navigation buttons from being obscured by a mobile status bar
-            child: NavigationRail(
-              extended: true, //Shows the labels next to the icon
-              destinations: [
-                NavigationRailDestination(
-                  icon: Icon(Icons.home),
-                  label: Text('Home'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.favorite),
-                  label: Text('Favorites'),
-                ),
-              ],
-              selectedIndex:
-                  selectedIndex, //selects the first destination, index of 1 selects the second destination
-              onDestinationSelected: (value) {
-                //Tells what happens when the user selects a destination
-                setState(() {
-                  selectedIndex = value;
-                });
-                
-              },
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
+        body: Row(
+          children: [
+            SafeArea(
+              //SafeArea ensures the child is not obscured by a hardware notch or status bar
+              //It wraps around the NavigationRail to prevent the navigation buttons from being obscured by a mobile status bar
+              child: NavigationRail(
+                extended: true, //Shows the labels next to the icon
+                destinations: [
+                  NavigationRailDestination(
+                    icon: Icon(Icons.home),
+                    label: Text('Home'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.favorite),
+                    label: Text('Favorites'),
+                  ),
+                ],
+                selectedIndex:
+                    selectedIndex, //selects the first destination, index of 1 selects the second destination
+                onDestinationSelected: (value) {
+                  //Tells what happens when the user selects a destination
+                  setState(() {
+                    selectedIndex = value;
+                  });
+                },
+              ),
             ),
-          ),
-          Expanded(
-            //let you express layouts where some children take only as much space as they need
-            //expanded=takes up space
-            //Two Expanded widgets split all the available horizontal space between themselves
-            child: Container(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              child: page,
+            Expanded(
+              //let you express layouts where some children take only as much space as they need
+              //expanded=takes up space
+              //Two Expanded widgets split all the available horizontal space between themselves
+              child: Container(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                child: page,
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -198,5 +202,27 @@ class BigCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class FavoritesPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
+    if (appState.favorites.isEmpty) {
+      return Center(
+        child: Text('No Favorites yet.'),
+      );
+    }
+    return ListView(children: [
+      Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text('You have'
+            '${appState.favorites.length} favorites: '),
+      ),
+      for (var pair in appState.favorites)
+        ListTile(leading: Icon(Icons.favorite), title: Text(pair.asLowerCase))
+    ]);
   }
 }
