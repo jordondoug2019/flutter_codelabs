@@ -6,6 +6,9 @@ class Document {
 
 //Create and Return a record 
 //Records are comma-delimited field list enclosed in parentheses
+//Record fields can each have a different type, so recirds can collect mutliple types
+//Records can contain both named and positional foelds, like argument lists in a function 
+//Records can be returned from a function, so they enable you to return mutliple values froma function call
   (String, {DateTime modified}) get metadata {           
     //Metadata returns data
     const title = 'My Document';
