@@ -76,6 +76,18 @@ class BlockWidget extends StatelessWidget {
     );
   }
 }
+String formatDate(DateTime dateTime) {
+  final today = DateTime.now();
+  final difference = dateTime.difference(today);
+
+  return switch (difference) {
+    Duration(inDays: 0) => 'today',
+    Duration(inDays: 1) => 'tomorrow',
+    Duration(inDays: -1) => 'yesterday',
+    Duration(inDays: final days, isNegative: true) => '${days.abs()} days ago',
+    Duration(inDays: final days) => '$days days from now',
+  };
+}
 //to get a psitional field (a field without a name, like title), user the getter $<num> on the record. 
 //this reurns only unnamed fields
 //Named fields like modified don't have a positional getter, so you can use its name directly,  like metadataRecord.modified. 
