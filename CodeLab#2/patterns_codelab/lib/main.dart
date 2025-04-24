@@ -29,24 +29,50 @@ class DocumentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Accessing Record fields
-    final (title,  : modified) = document.metadata;
+    final (title, :modified) = document.metadata;
+    final blocks = document.getBlocks();
     //metadata getter method returns a record, which is assigned to the local variable, metaDataRecord
-    //Records are a light and easy way to return multiple values from a single function call and assign them to a variable 
+    //Records are a light and easy way to return multiple values from a single function call and assign them to a variable
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title)
-        ),
+      appBar: AppBar(title: Text(title)),
 
-      body: 
-      Column(
-        children: 
-        [Center(
-          child: 
-          Text('Last modified $modified',
-          )
-          )
-          ]
+      body: Column(
+        children: [
+          Text('Last modified $modified'),
+          Expanded(
+            child: ListView.builder(
+              itemCount: blocks.length,
+              itemBuilder: (context, index) {
+                return BlockWidget(block: blocks[index]);
+              },
+            ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class BlockWidget extends StatelessWidget {
+  final Block block;
+
+  const BlockWidget({required this.block, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    TextStyle? textStyle;
+    switch (block.type) {
+      case 'h1':
+        textStyle = Theme.of(context).textTheme.displayMedium;
+      case 'p' || 'checkbox':
+        textStyle = Theme.of(context).textTheme.bodyMedium;
+      case _:
+        textStyle = Theme.of(context).textTheme.bodySmall;
+    }
+
+    return Container(
+      margin: const EdgeInsets.all(8),
+      child: Text(block.text, style: textStyle),
     );
   }
 }
