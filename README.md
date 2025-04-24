@@ -14,3 +14,10 @@ In CodeLab #1, I created a Namer App. A simple app that generates random WordPai
 7. Stateless vs Stateful Widget
 
 # CodeLab #2
+
+In CodeLab #2, I learned about patterns and records using Dart 3. Data patterns are the titles of columns in a data set. The record is the data presented in the rows. Structuring is when all of the data is packaged together. Destructuring is when certain types of data is extracted from the record. 
+
+I learned the following:
+1. How to identify a record and pattern
+2. Structure vs Destructure
+3. Refutable pattern vs irrefutable pattern 
