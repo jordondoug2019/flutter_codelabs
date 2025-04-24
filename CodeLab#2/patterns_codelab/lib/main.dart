@@ -29,12 +29,12 @@ class DocumentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Accessing Record fields
-    final metadataRecord = document.metadata;
+    final (title,  : modified) = document.metadata;
     //metadata getter method returns a record, which is assigned to the local variable, metaDataRecord
     //Records are a light and easy way to return multiple values from a single function call and assign them to a variable 
     return Scaffold(
       appBar: AppBar(
-        title: Text(metadataRecord.$1)
+        title: Text(title)
         ),
 
       body: 
@@ -42,7 +42,7 @@ class DocumentScreen extends StatelessWidget {
         children: 
         [Center(
           child: 
-          Text('Last modified ${metadataRecord.modified}'
+          Text('Last modified $modified',
           )
           )
           ]
@@ -56,4 +56,6 @@ class DocumentScreen extends StatelessWidget {
 
 //To Detemind the name of a getter for a positional field, start at $! and skip named fields. 
 //A pattern represents a structure that one or more values can take, like a blueprint. 
-//Patterns againast actual values to determine if they match 
+//Patterns againast actual values to determine if they match.
+//SOme patterns, when they match, destructure the matched value by pulling data out of it. 
+//Destructing lets you unpack values from an object to assign them to local variables, or perform further matching on them. 

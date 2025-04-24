@@ -1,22 +1,63 @@
 import 'dart:convert';
-
 class Document {
   final Map<String, Object?> _json;
   Document() : _json = jsonDecode(documentJson);
+
+  (String, {DateTime modified}) get metadata {
+    if (_json                                                // Modify from here...
+        case {
+          'metadata': {
+            'title': String title,
+            'modified': String localModified,
+          }
+        }) {
+      return (title, modified: DateTime.parse(localModified));
+    } else {
+      throw const FormatException('Unexpected JSON');
+    }                                                        // to here.
+  }
+   List<Block> getBlocks() {                                  // Add from here...
+    if (_json case {'blocks': List blocksJson}) {
+      return [for (final blockJson in blocksJson) Block.fromJson(blockJson)];
+    } else {
+      throw const FormatException('Unexpected JSON format');
+    }
+  }                                                          // to here.
+}
+
+
+
+class Block {
+  final String type;
+  final String text;
+  Block(this.type, this.text);
+
+  factory Block.fromJson(Map<String, dynamic> json) {
+    if (json case {'type': final type, 'text': final text}) {
+      return Block(type, text);
+    } else {
+      throw const FormatException('Unexpected JSON format');
+    }
+  }
+}
+
+//class Document {
+ // final Map<String, Object?> _json;
+//  Document() : _json = jsonDecode(documentJson);
 
 //Create and Return a record 
 //Records are comma-delimited field list enclosed in parentheses
 //Record fields can each have a different type, so recirds can collect mutliple types
 //Records can contain both named and positional foelds, like argument lists in a function 
 //Records can be returned from a function, so they enable you to return mutliple values froma function call
-  (String, {DateTime modified}) get metadata {           
+  //(String, {DateTime modified}) get metadata {           
     //Metadata returns data
-    const title = 'My Document';
-    final now = DateTime.now();
+    //const title = 'My Document';
+   // final now = DateTime.now();
 
-    return (title, modified: now);
-  }  
-}
+    //return (title, modified: now);
+ // }  
+//}
 
 const documentJson = '''
 {
