@@ -20,4 +20,8 @@ In CodeLab #2, I learned about patterns and records using Dart 3. Data patterns 
 I learned the following:
 1. How to identify a record and pattern
 2. Structure vs Destructure
-3. Refutable pattern vs irrefutable pattern 
+3. Refutable pattern vs irrefutable pattern
+4. Enhanced switch and case
+5. Sealed cases
+
+# CodeLab #3
