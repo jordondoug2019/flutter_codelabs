@@ -30,6 +30,7 @@ class DocumentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //Accessing Record fields
     final (title, :modified) = document.metadata;
+    final formattedModifiedDate = formatDate(modified);
     final blocks = document.getBlocks();
     //metadata getter method returns a record, which is assigned to the local variable, metaDataRecord
     //Records are a light and easy way to return multiple values from a single function call and assign them to a variable
@@ -38,7 +39,8 @@ class DocumentScreen extends StatelessWidget {
 
       body: Column(
         children: [
-          Text('Last modified $modified'),
+          
+          Text('Last modified $formattedModifiedDate'),
           Expanded(
             child: ListView.builder(
               itemCount: blocks.length,
@@ -60,22 +62,25 @@ class BlockWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle? textStyle;
-    switch (block.type) {
-      case 'h1':
-        textStyle = Theme.of(context).textTheme.displayMedium;
-      case 'p' || 'checkbox':
-        textStyle = Theme.of(context).textTheme.bodyMedium;
-      case _:
-        textStyle = Theme.of(context).textTheme.bodySmall;
+    Widget content;
+
+    switch (block) {
+      case HeaderBlock(:final text):
+        content = Text(text, style: Theme.of(context).textTheme.displayMedium);
+      case ParagraphBlock(:final text):
+        content = Text(text);
+      case CheckboxBlock(:final text, :final isChecked):
+        content = Row(
+          children: [Checkbox(value: isChecked, onChanged: (_) {}), Text(text)],
+        );
+        default:
+      content = const SizedBox.shrink();
     }
 
-    return Container(
-      margin: const EdgeInsets.all(8),
-      child: Text(block.text, style: textStyle),
-    );
+    return Container(margin: const EdgeInsets.all(8), child: content);
   }
 }
+
 String formatDate(DateTime dateTime) {
   final today = DateTime.now();
   final difference = dateTime.difference(today);
@@ -84,9 +89,10 @@ String formatDate(DateTime dateTime) {
     Duration(inDays: 0) => 'today',
     Duration(inDays: 1) => 'tomorrow',
     Duration(inDays: -1) => 'yesterday',
-     Duration(inDays: final days) when days > 7 => '${days ~/ 7} weeks from now', // Add from here
+    Duration(inDays: final days) when days > 7 =>
+      '${days ~/ 7} weeks from now', // Add from here
     Duration(inDays: final days) when days < -7 =>
-      '${days.abs() ~/ 7} weeks ago',        
+      '${days.abs() ~/ 7} weeks ago',
     Duration(inDays: final days, isNegative: true) => '${days.abs()} days ago',
     Duration(inDays: final days) => '$days days from now',
   };
