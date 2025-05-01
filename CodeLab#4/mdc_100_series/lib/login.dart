@@ -13,7 +13,8 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-
+//Root of the Login Page
+//Represents the entire page displayed in the simulator 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -21,6 +22,8 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+//Login Widget- Stateful widget- State is changeable 
+//function controls how all the widgets in our UI are created
 class _LoginPageState extends State<LoginPage> {
   // TODO: Add text editing controllers (101)
   @override
@@ -42,7 +45,14 @@ class _LoginPageState extends State<LoginPage> {
             // TODO: Remove filled: true values (103)
             // TODO: Add TextField widgets (101)
             // TODO: Add button bar (101)
-          ],
+           const  OverflowBar(
+  alignment: MainAxisAlignment.end,
+  // TODO: Add a beveled rectangular border to CANCEL (103)
+  children: <Widget>[
+    // TODO: Add buttons (101)
+  ],
+),
+          ],    
         ),
       ),
     );
