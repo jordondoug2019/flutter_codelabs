@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  //Tells Flutter to tun the app defined in MyApp
+  //Tells Flutter to run the app defined in MyApp
   runApp(MyApp());
 }
 
@@ -68,11 +68,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var selectedIndex = 0;
+  var selectedIndex = 0; //The index of destinations (Home, Favorites, etc)
   @override
   Widget build(BuildContext context) {
     // ...
-
+    //Switch case of selected index- If index=0 go to home, if index=1 go to favs
     Widget page;
     switch (selectedIndex) {
       case 0:
