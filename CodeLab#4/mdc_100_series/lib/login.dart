@@ -51,10 +51,19 @@ class _LoginPageState extends State<LoginPage> {
             // TODO: Add TextField widgets (101)
             // [Name]
           TextField(
+            decoration: const InputDecoration(
+            filled: true,
+            labelText: 'Username',
+              ),
             controller: _usernameController,
           ),
           // [Password]
           TextField(
+             decoration: const InputDecoration(
+            filled: true,
+            labelText: 'Password',
+             ),
+              obscureText: true,
           controller: _passwordController),
             // TODO: Add button bar (101)
   
@@ -79,6 +88,7 @@ class _LoginPageState extends State<LoginPage> {
       child: const Text('NEXT'),
       onPressed: () {
     // TODO: Show the next page (101) 
+      Navigator.pop(context);
       },
     ),
   ],
