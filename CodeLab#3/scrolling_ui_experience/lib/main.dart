@@ -31,6 +31,8 @@ class AppBarexample extends StatelessWidget {
         backgroundColor: Colors.blue,
       ),
       body: ListView(
+        //Listview automatically creates scrollable elemment
+        //Body: adds data/elemts to the body of the app 
   padding: const EdgeInsets.all(8),
   children: <Widget>[
     Container(
