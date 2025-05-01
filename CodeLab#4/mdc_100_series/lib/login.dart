@@ -26,6 +26,11 @@ class LoginPage extends StatefulWidget {
 //function controls how all the widgets in our UI are created
 class _LoginPageState extends State<LoginPage> {
   // TODO: Add text editing controllers (101)
+  //Allows for text fields to be clear
+   final _usernameController = TextEditingController();
+   final _passwordController = TextEditingController();
+   
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,8 +49,18 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 120.0),
             // TODO: Remove filled: true values (103)
             // TODO: Add TextField widgets (101)
+            // [Name]
+          TextField(
+            controller: _usernameController,
+          ),
+          // [Password]
+          TextField(
+          controller: _passwordController),
             // TODO: Add button bar (101)
-           const  OverflowBar(
+  
+            //Overflow Bar is a layout widget that tries to put all its children in a row, but if they dont fit
+            //it wraps the rest to the next line
+           OverflowBar(
   alignment: MainAxisAlignment.end,
   // TODO: Add a beveled rectangular border to CANCEL (103)
   children: <Widget>[
@@ -53,7 +68,9 @@ class _LoginPageState extends State<LoginPage> {
     TextButton(
       child: const Text('CANCEL'),
       onPressed: () {
-        // TODO: Clear the text fields (101)
+        //clears out text fields 
+          _usernameController.clear();
+          _passwordController.clear();
       },
     ),
     // TODO: Add an elevation to NEXT (103)
