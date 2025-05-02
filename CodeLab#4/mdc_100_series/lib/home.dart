@@ -18,6 +18,31 @@ class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   // Make a collection of cards (102)
+  List<Card> _buildGridCards(int count) {
+    List<Card> cards = List.generate(count, (int index) {
+      return Card(
+          clipBehavior: Clip.antiAlias,
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                AspectRatio(
+                  aspectRatio: 18.0 / 11.0,
+                  child: Image.asset('assets/diamond.png'),
+                ),
+                const Padding(
+                    padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Title'),
+                          SizedBox(height: 8.0),
+                          Text('Secondary Text'),
+                        ]))
+              ]));
+    });
+    return cards;
+  }
+
   // Add a variable for Category (104)
   @override
   Widget build(BuildContext context) {
@@ -38,7 +63,7 @@ class HomePage extends StatelessWidget {
           // Add buttons and title (102)
           title: const Text('SHRINE'),
           actions: <Widget>[
-            //added search icon 
+            //added search icon
             IconButton(
               icon: const Icon(
                 Icons.search,
@@ -61,35 +86,39 @@ class HomePage extends StatelessWidget {
           ]),
       // Add a grid view (102)
       //GridView uses count constructor since the number of items it displays is countable and not infiniste
-      //GridView makes tiles that are all the same size 
-      body: GridView.count(crossAxisCount: 2,
-      //Cross Axis Count specifies how many items across. @ columsn for this example. 
-      padding: const EdgeInsets.all(16.0),
-      //Padding provides space on all 4 sides of the GridView
-      childAspectRatio: 8.0/9.0,
-      //childAspectRatio identifed the size of the items based on an aspect ration(width over height)
-      children: <Widget>[Card(
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget> [
-            AspectRatio(
-              aspectRatio: 18.0/11.0,
-              child: Image.asset('assets/diamond.png')
-               ),
-               const Padding(padding: const EdgeInsets.fromLTRB(16.0,12.0,16.0,8.0),
-               child: Column(
+      //GridView makes tiles that are all the same size
+      body: GridView.count(
+        crossAxisCount: 2,
+        //Cross Axis Count specifies how many items across. @ columsn for this example.
+        padding: const EdgeInsets.all(16.0),
+        //Padding provides space on all 4 sides of the GridView
+        childAspectRatio: 8.0 / 9.0,
+        //childAspectRatio identifed the size of the items based on an aspect ration(width over height)
+        children: <Widget>[
+          Card(
+              clipBehavior: Clip.antiAlias,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Title'),
-                  SizedBox(height: 8.0,),
-                  Text('Secondary Text'),
-                
+                  AspectRatio(
+                      aspectRatio: 18.0 / 11.0,
+                      child: Image.asset('assets/diamond.png')),
+                  const Padding(
+                      padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Title'),
+                          SizedBox(
+                            height: 8.0,
+                          ),
+                          Text('Secondary Text'),
+                        ],
+                      ))
                 ],
-               ))
-          ],
-        )
-      )],),
+              ))
+        ],
+      ),
       resizeToAvoidBottomInset: false,
       // Set resizeToAvoidBottomInset (101)
     );
