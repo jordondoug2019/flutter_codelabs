@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   // Make a collection of cards (102)
+  // fucntins that start w/ _ are private API
   List<Card> _buildGridCards(int count) {
     List<Card> cards = List.generate(count, (int index) {
       return Card(
@@ -94,30 +95,7 @@ class HomePage extends StatelessWidget {
         //Padding provides space on all 4 sides of the GridView
         childAspectRatio: 8.0 / 9.0,
         //childAspectRatio identifed the size of the items based on an aspect ration(width over height)
-        children: <Widget>[
-          Card(
-              clipBehavior: Clip.antiAlias,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  AspectRatio(
-                      aspectRatio: 18.0 / 11.0,
-                      child: Image.asset('assets/diamond.png')),
-                  const Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Title'),
-                          SizedBox(
-                            height: 8.0,
-                          ),
-                          Text('Secondary Text'),
-                        ],
-                      ))
-                ],
-              ))
-        ],
+        children: _buildGridCards(10)
       ),
       resizeToAvoidBottomInset: false,
       // Set resizeToAvoidBottomInset (101)
