@@ -49,6 +49,7 @@ class HomePage extends StatelessWidget {
                 product.assetName,
                 package: product.assetPackage,
                 //Adust the box size (102)
+                fit: BoxFit.fitWidth,
               ),
             ),
             Expanded(
