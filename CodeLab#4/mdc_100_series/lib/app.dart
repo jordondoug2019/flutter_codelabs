@@ -55,3 +55,29 @@ ThemeData _buildShrineTheme() {
           error: kShrineErrorRed));
 }
 // TODO: Build a Shrine Text Theme (103)
+TextTheme _buildShrineTextTheme(TextTheme base) {
+  return base
+  .copyWith(
+    headlineSmall: base.headlineSmall!.copyWith(
+      fontWeight: FontWeight.w500,
+    ),
+    titleLarge: base.titleLarge!.copyWith(
+      fontSize: 18.0,
+    ),
+    bodySmall: base.bodySmall!.copyWith(
+      fontWeight: FontWeight.w400,
+      fontSize: 14.0,
+    ),
+    bodyLarge: base.bodyLarge!.copyWith(
+        fontWeight: FontWeight.w500,
+        fontSize: 16.0,
+
+    ),
+  )
+    .apply(
+      fontFamily: 'Rubik',
+      displayColor: kShrineBrown900,
+      bodyColor: kShrineBrown900
+    );
+
+}
