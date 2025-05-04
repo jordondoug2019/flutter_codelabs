@@ -90,61 +90,64 @@ class HomePage extends StatelessWidget {
   @override
     Widget build(BuildContext context) {
       // Return an AsymmetricView (104)
+      // TODO: Return an AsymmetricView (104)
+return AsymmetricView(products: ProductsRepository.loadProducts(Category.all));
       // Pass Category variable to AsymmetricView (104)
-      return Scaffold(
-        // Add app bar (102)
-        appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(
-                Icons.menu,
-                semanticLabel: 'menu',
-              ),
-              onPressed: () {
-                print('Menu button');
-              },
-            ),
-            // Add buttons and title (102)
-            title: const Text('SHRINE'),
-            actions: <Widget>[
-              //added search icon
-              IconButton(
-                icon: const Icon(
-                  Icons.search,
-                  semanticLabel: 'search',
-                ),
-                onPressed: () {
-                  print('Search button');
-                },
-              ),
-              //added filter icon
-              IconButton(
-                icon: const Icon(
-                  Icons.tune,
-                  semanticLabel: 'filter',
-                ),
-                onPressed: () {
-                  print('Filter Button');
-                },
-              )
-            ]),
-        // Add a grid view (102)
-        //GridView uses count constructor since the number of items it displays is countable and not infiniste
-        //GridView makes tiles that are all the same size
-        body: AsymmetricView(products: ProductsRepository.loadProducts(Category.all))
-        
-        // GridView.count(
-        //     crossAxisCount: 2,
-        //     //Cross Axis Count specifies how many items across. @ columsn for this example.
-        //     padding: const EdgeInsets.all(16.0),
-        //     //Padding provides space on all 4 sides of the GridView
-        //     childAspectRatio: 8.0 / 9.0,
-        //     //childAspectRatio identifed the size of the items based on an aspect ration(width over height)
-        //     children: _buildGridCards(context)),
-        // resizeToAvoidBottomInset: false,
-        // Set resizeToAvoidBottomInset (101)
-      );
-    }
+        }
   }
+      // return Scaffold(
+      //   // Add app bar (102)
+      //   appBar: AppBar(
+      //       leading: IconButton(
+      //         icon: const Icon(
+      //           Icons.menu,
+      //           semanticLabel: 'menu',
+      //         ),
+      //         onPressed: () {
+      //           print('Menu button');
+      //         },
+      //       ),
+      //       // Add buttons and title (102)
+      //       title: const Text('SHRINE'),
+      //       actions: <Widget>[
+      //         //added search icon
+      //         IconButton(
+      //           icon: const Icon(
+      //             Icons.search,
+      //             semanticLabel: 'search',
+      //           ),
+      //           onPressed: () {
+      //             print('Search button');
+      //           },
+      //         ),
+      //         //added filter icon
+      //         IconButton(
+      //           icon: const Icon(
+      //             Icons.tune,
+      //             semanticLabel: 'filter',
+      //           ),
+      //           onPressed: () {
+      //             print('Filter Button');
+      //           },
+      //         )
+      //       ]),
+      //   // Add a grid view (102)
+      //   //GridView uses count constructor since the number of items it displays is countable and not infiniste
+      //   //GridView makes tiles that are all the same size
+      //   body: AsymmetricView(products: ProductsRepository.loadProducts(Category.all))
+        
+      //   // GridView.count(
+      //   //     crossAxisCount: 2,
+      //   //     //Cross Axis Count specifies how many items across. @ columsn for this example.
+      //   //     padding: const EdgeInsets.all(16.0),
+      //   //     //Padding provides space on all 4 sides of the GridView
+      //   //     childAspectRatio: 8.0 / 9.0,
+      //   //     //childAspectRatio identifed the size of the items based on an aspect ration(width over height)
+      //   //     children: _buildGridCards(context)),
+      //   // resizeToAvoidBottomInset: false,
+      //   // Set resizeToAvoidBottomInset (101)
+      // );
+  
 
 
 
