@@ -56,7 +56,11 @@ ThemeData _buildShrineTheme() {
       ),
       textTheme: _buildShrineTextTheme(base.textTheme),
       textSelectionTheme:
-          const TextSelectionThemeData(selectionColor: kShrinePink100));
+          const TextSelectionThemeData(selectionColor: kShrinePink100),
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(),
+        )
+          );
 }
 
 // TODO: Build a Shrine Text Theme (103)
