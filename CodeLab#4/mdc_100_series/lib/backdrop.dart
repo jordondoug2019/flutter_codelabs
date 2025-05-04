@@ -48,7 +48,7 @@ class _BackdropState extends State<Backdrop>
     var appBar = AppBar(
       elevation: 0.0,
       titleSpacing: 0.0,
-      backgroundColor: kShrineSurfaceWhite,
+      backgroundColor: kShrinePink100,
       //Replace leading menu icon with IconButton
       // remove leading property
       //create title with _BackdropTitle param
