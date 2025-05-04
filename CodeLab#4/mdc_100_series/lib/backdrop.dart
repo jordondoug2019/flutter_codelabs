@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shrine/colors.dart';
 
 import 'model/product.dart';
 
@@ -44,6 +45,7 @@ class _BackdropState extends State<Backdrop>
     var appBar = AppBar(
       elevation: 0.0,
       titleSpacing: 0.0,
+      backgroundColor: kShrineSurfaceWhite,
       //Replace leading menu icon with IconButton
       // remove leading property
       //create title with _BackdropTitle param

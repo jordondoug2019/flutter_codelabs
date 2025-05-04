@@ -93,8 +93,7 @@ class HomePage extends StatelessWidget {
       // TODO: Return an AsymmetricView (104)
 return AsymmetricView(products: ProductsRepository.loadProducts(Category.all));
       // Pass Category variable to AsymmetricView (104)
-        }
-  }
+      
       // return Scaffold(
       //   // Add app bar (102)
       //   appBar: AppBar(
@@ -147,7 +146,8 @@ return AsymmetricView(products: ProductsRepository.loadProducts(Category.all));
       //   // resizeToAvoidBottomInset: false,
       //   // Set resizeToAvoidBottomInset (101)
       // );
-  
+    }
+  }
 
 
 
