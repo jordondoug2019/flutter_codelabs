@@ -4,6 +4,8 @@ import 'package:shrine/colors.dart';
 import 'model/product.dart';
 
 //Add Velocity Constant
+const double _kFlingVelocity = 2.0;
+
 //created backdrop widget
 class Backdrop extends StatefulWidget {
   final Category currentCategory;
@@ -30,14 +32,50 @@ class _BackdropState extends State<Backdrop>
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
 
   //Add AnimationController Widget
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 300),
+      value: 1.0,
+      vsync: this,
+    );
+  }
+  //add functions to get and change front layer visibility 
+  bool get _frontLayerVisible {
+    final status = _controller.status;
+    return status == AnimationStatus.completed ||
+        status == AnimationStatus.forward;
+  }
+  void _toggleBackdropLayerVisibility() {
+    _controller.fling(
+      velocity: _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity,
+    );
+  }
+
+
+  // add override for didUpdateWidget
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+  
 
   //Add BuildCOntext and BoxCOnstraints parameters to _buildStack
   Widget _buildStack() {
     return Stack(
-      key: _backdropKey, children: <Widget>[
+      key: _backdropKey, 
+      children: <Widget>[
       // Wrap BackLayer in an ExcludeSemnatic Widget
-      widget.backLayer,
-      //add a positonedtransition 
+      ExcludeSemantics(
+        child: widget.backLayer,
+        excluding: _frontLayerVisible,
+      ),
+    
+      //add a positonedtransition
       //wrap front layer in _FrontLayer
       _FrontLayer(child: widget.frontLayer),
     ]);
@@ -94,10 +132,11 @@ class _FrontLayer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            //Add a gesture dector 
+            //Add a gesture dector
             Expanded(
               child: child,
             )
-          ],));
+          ],
+        ));
   }
 }
