@@ -43,18 +43,19 @@ class _BackdropState extends State<Backdrop>
       vsync: this,
     );
   }
-  //add functions to get and change front layer visibility 
+
+  //add functions to get and change front layer visibility
   bool get _frontLayerVisible {
     final status = _controller.status;
     return status == AnimationStatus.completed ||
         status == AnimationStatus.forward;
   }
+
   void _toggleBackdropLayerVisibility() {
     _controller.fling(
       velocity: _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity,
     );
   }
-
 
   // add override for didUpdateWidget
   @override
@@ -62,19 +63,28 @@ class _BackdropState extends State<Backdrop>
     _controller.dispose();
     super.dispose();
   }
-  
+
+  //Build Stack Widget
 
   //Add BuildCOntext and BoxCOnstraints parameters to _buildStack
-  Widget _buildStack() {
-    return Stack(
-      key: _backdropKey, 
-      children: <Widget>[
+  Widget _buildStack(BuildContext contect, BoxConstraints constraints) {
+    const double layerTitleHeight = 48.0;
+    final Size layerSize = constraints.biggest;
+    final double layerTop = layerSize.height - layerTitleHeight;
+
+    //Create A relativerectween animation
+    Animation<RelativeRect> layerAnimation = RelativeRectTween(
+      begin: RelativeRect.fromLTRB(
+          0.0, layerTop, 0.0, layerTop - layerSize.height),
+      end: const RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
+    ).animate(_controller.view);
+    return Stack(key: _backdropKey, children: <Widget>[
       // Wrap BackLayer in an ExcludeSemnatic Widget
       ExcludeSemantics(
         child: widget.backLayer,
         excluding: _frontLayerVisible,
       ),
-    
+
       //add a positonedtransition
       //wrap front layer in _FrontLayer
       _FrontLayer(child: widget.frontLayer),
