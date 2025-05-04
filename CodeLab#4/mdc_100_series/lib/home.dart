@@ -14,6 +14,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shrine/supplemental/asymmetric_view.dart';
 
 import 'model/product.dart';
 import 'model/products_repository.dart';
@@ -24,66 +25,66 @@ class HomePage extends StatelessWidget {
   // Make a collection of cards (102)
   // fucntins that start w/ _ are private API
   //added product information to card collection
-  List<Card> _buildGridCards(BuildContext context) {
-    List<Product> products = ProductsRepository.loadProducts(Category.all);
+  // List<Card> _buildGridCards(BuildContext context) {
+  //   List<Product> products = ProductsRepository.loadProducts(Category.all);
 
-    if (products.isEmpty) {
-      return const <Card>[];
-    }
-    final ThemeData theme = Theme.of(context);
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-        locale: Localizations.localeOf(context).toString()
-        );
+  //   if (products.isEmpty) {
+  //     return const <Card>[];
+  //   }
+  //   final ThemeData theme = Theme.of(context);
+  //   final NumberFormat formatter = NumberFormat.simpleCurrency(
+  //       locale: Localizations.localeOf(context).toString()
+  //       );
 
-    return products.map((product) {
-      return Card(
-        clipBehavior: Clip.antiAlias,
-        //Adjust card heights (103)
-        elevation: 0.0,
-        child: Column(
-          //center items on the card (103)
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 18 / 11,
-              child: Image.asset(
-                product.assetName,
-                package: product.assetPackage,
-                //Adust the box size (102)
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                child: Column(
-                  //Align Labels to the bottom and center (103)
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  //Change innermost Column (103)
-                  children: <Widget>[
-                    //Handle Overflowing labels (103)
-                    Text(
-                      product.name,
-                      style: theme.textTheme.labelLarge,
-                      softWrap: false,
-                      overflow:TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      formatter.format(product.price),
-                      style: theme.textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
-  }
+  //   return products.map((product) {
+  //     return Card(
+  //       clipBehavior: Clip.antiAlias,
+  //       //Adjust card heights (103)
+  //       elevation: 0.0,
+  //       child: Column(
+  //         //center items on the card (103)
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: <Widget>[
+  //           AspectRatio(
+  //             aspectRatio: 18 / 11,
+  //             child: Image.asset(
+  //               product.assetName,
+  //               package: product.assetPackage,
+  //               //Adust the box size (102)
+  //               fit: BoxFit.fitWidth,
+  //             ),
+  //           ),
+  //           Expanded(
+  //             child: Padding(
+  //               padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+  //               child: Column(
+  //                 //Align Labels to the bottom and center (103)
+  //                 mainAxisAlignment: MainAxisAlignment.end,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 //Change innermost Column (103)
+  //                 children: <Widget>[
+  //                   //Handle Overflowing labels (103)
+  //                   Text(
+  //                     product.name,
+  //                     style: theme.textTheme.labelLarge,
+  //                     softWrap: false,
+  //                     overflow:TextOverflow.ellipsis,
+  //                     maxLines: 1,
+  //                   ),
+  //                   const SizedBox(height: 4.0),
+  //                   Text(
+  //                     formatter.format(product.price),
+  //                     style: theme.textTheme.bodySmall,
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //   }).toList();
+  // }
 
     // Add a variable for Category (104)
   @override
@@ -129,15 +130,17 @@ class HomePage extends StatelessWidget {
         // Add a grid view (102)
         //GridView uses count constructor since the number of items it displays is countable and not infiniste
         //GridView makes tiles that are all the same size
-        body: GridView.count(
-            crossAxisCount: 2,
-            //Cross Axis Count specifies how many items across. @ columsn for this example.
-            padding: const EdgeInsets.all(16.0),
-            //Padding provides space on all 4 sides of the GridView
-            childAspectRatio: 8.0 / 9.0,
-            //childAspectRatio identifed the size of the items based on an aspect ration(width over height)
-            children: _buildGridCards(context)),
-        resizeToAvoidBottomInset: false,
+        body: AsymmetricView(products: ProductsRepository.loadProducts(Category.all))
+        
+        // GridView.count(
+        //     crossAxisCount: 2,
+        //     //Cross Axis Count specifies how many items across. @ columsn for this example.
+        //     padding: const EdgeInsets.all(16.0),
+        //     //Padding provides space on all 4 sides of the GridView
+        //     childAspectRatio: 8.0 / 9.0,
+        //     //childAspectRatio identifed the size of the items based on an aspect ration(width over height)
+        //     children: _buildGridCards(context)),
+        // resizeToAvoidBottomInset: false,
         // Set resizeToAvoidBottomInset (101)
       );
     }

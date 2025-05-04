@@ -50,24 +50,29 @@ ThemeData _buildShrineTheme() {
   final ThemeData base = ThemeData.light(useMaterial3: true);
   return base.copyWith(
       colorScheme: base.colorScheme.copyWith(
-        primary: kShrinePink100,
-        onPrimary: kShrineBrown900,
-        secondary: kShrineBrown900,
+        primary: kShrinePurple,
+        secondary: kShrinePurple,
         error: kShrineErrorRed,
       ),
-      textTheme: _buildShrineTextTheme(base.textTheme),
+      scaffoldBackgroundColor: kShrineSurfaceWhite,
       textSelectionTheme:
-          const TextSelectionThemeData(selectionColor: kShrinePink100),
+          const TextSelectionThemeData(
+            selectionColor: kShrinePurple,
+            ),
+            appBarTheme: const AppBarTheme(
+              foregroundColor: kShrineBrown900,
+              backgroundColor: kShrinePink100,
+            ),
         inputDecorationTheme: const InputDecorationTheme(
           border: CutCornersBorder(),
           focusedBorder: CutCornersBorder(
             borderSide: BorderSide(
               width: 2.0,
-              color: kShrineBrown900,
+              color: kShrinePurple,
             ),
           ),
           floatingLabelStyle: TextStyle(
-          color: kShrineBrown900,
+          color: kShrinePurple,
         )
         ),
         
