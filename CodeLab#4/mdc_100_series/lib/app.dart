@@ -66,8 +66,9 @@ ThemeData _buildShrineTheme() {
       error: kShrineErrorRed,
     ),
     scaffoldBackgroundColor: kShrineSurfaceWhite,
+    textTheme: _buildShrineTextTheme(base.textTheme),
     textSelectionTheme: const TextSelectionThemeData(
-      selectionColor: kShrinePurple,
+      selectionColor: kShrinePink100,
     ),
     appBarTheme: const AppBarTheme(
       foregroundColor: kShrineBrown900,
