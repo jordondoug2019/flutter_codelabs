@@ -84,8 +84,12 @@ class _BackdropState extends State<Backdrop>
         child: widget.backLayer,
         excluding: _frontLayerVisible,
       ),
-
-      //add a positonedtransition
+      //add a positioned transition
+      PositionedTransition(
+        rect: layerAnimation, 
+        child: _FrontLayer(
+          child: widget.frontLayer,
+          )),
       //wrap front layer in _FrontLayer
       _FrontLayer(child: widget.frontLayer),
     ]);
@@ -116,7 +120,7 @@ class _BackdropState extends State<Backdrop>
     );
     return Scaffold(
         appBar: appBar,
-        //return a lyoutBuilderWidget
+        //return a layoutBuilderWidget
         body: _buildStack());
   }
 }
