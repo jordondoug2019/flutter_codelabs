@@ -39,6 +39,7 @@ class HomePage extends StatelessWidget {
       return Card(
         clipBehavior: Clip.antiAlias,
         //Adjust card heights (103)
+        elevation: 0.0,
         child: Column(
           //center items on the card (103)
           crossAxisAlignment: CrossAxisAlignment.start,
