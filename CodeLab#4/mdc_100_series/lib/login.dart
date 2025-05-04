@@ -49,25 +49,31 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 120.0),
-            // TODO: Remove filled: true values (103)
-            // TODO: Add TextField widgets (101)
-            // [Name]
-          TextField(
-            decoration: const InputDecoration(
-            filled: true,
-            labelText: 'Username',
-              ),
-            controller: _usernameController,
-          ),
+            const SizedBox(height: 20.0),
+            //  Remove filled: true values (103)
+            // Add TextField widgets (101)
+
+            // Username
+          Padding(
+           padding: const EdgeInsets.only(bottom: 12.0), // 👈 adds spacing below
+          child: TextField(
+          decoration: const InputDecoration(
+          labelText: 'Username',
+    ),
+       controller: _usernameController,
+  ),
+),
           // [Password]
-          TextField(
-             decoration: const InputDecoration(
-            filled: true,
-            labelText: 'Password',
-             ),
-              obscureText: true,
-          controller: _passwordController),
+          Padding(
+         padding: const EdgeInsets.only(bottom: 24.0), // optional: spacing before buttons
+        child: TextField(
+         decoration: const InputDecoration(
+        labelText: 'Password',
+    ),
+    obscureText: true,
+    controller: _passwordController,
+  ),
+),
             // TODO: Add button bar (101)
   
             //Overflow Bar is a layout widget that tries to put all its children in a row, but if they dont fit
