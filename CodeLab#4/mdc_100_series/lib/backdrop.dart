@@ -33,10 +33,13 @@ class _BackdropState extends State<Backdrop>
 
   //Add BuildCOntext and BoxCOnstraints parameters to _buildStack
   Widget _buildStack() {
-    return Stack(key: _backdropKey, children: <Widget>[
+    return Stack(
+      key: _backdropKey, children: <Widget>[
       // Wrap BackLayer in an ExcludeSemnatic Widget
       widget.backLayer,
-      widget.frontLayer,
+      //add a positonedtransition 
+      //wrap front layer in _FrontLayer
+      _FrontLayer(child: widget.frontLayer),
     ]);
   }
 
