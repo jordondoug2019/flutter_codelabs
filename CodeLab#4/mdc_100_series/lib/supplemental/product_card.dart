@@ -18,10 +18,19 @@ import 'package:intl/intl.dart';
 import '../model/product.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard(
-      {this.imageAspectRatio = 33 / 49, required this.product, Key? key})
-      : assert(imageAspectRatio > 0),
+  ProductCard({
+    Key? key, 
+    this.imageAspectRatio = 33/49,
+    required this.product,
+  }) : assert(() {
+          if (imageAspectRatio <= 0) {
+            print('❌ Invalid imageAspectRatio: $imageAspectRatio');
+            return false;
+          }
+          return true;
+        }()),
         super(key: key);
+     
 
   final double imageAspectRatio;
   final Product product;

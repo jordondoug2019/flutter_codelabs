@@ -4,7 +4,7 @@ import 'package:shrine/colors.dart';
 import 'model/product.dart';
 
 //Add Velocity Constant
-const double _kFlingVelocity = 2.0;
+const double _kFlingVelocity = 0.5;
 
 //created backdrop widget
 class Backdrop extends StatefulWidget {
@@ -38,10 +38,13 @@ class _BackdropState extends State<Backdrop>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 1000),
       value: 1.0,
       vsync: this,
     );
+    _controller.addListener(() {
+      print("Animation Status: ${_controller.status}");
+    });
   }
 
   //add functions to get and change front layer visibility
@@ -52,9 +55,12 @@ class _BackdropState extends State<Backdrop>
   }
 
   void _toggleBackdropLayerVisibility() {
-    _controller.fling(
-      velocity: _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity,
-    );
+    print("Backdrop visibility tiggled!");
+    setState(() {
+      _controller.fling(
+        velocity: _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity,
+      );
+    });
   }
 
   // add override for didUpdateWidget
@@ -71,13 +77,21 @@ class _BackdropState extends State<Backdrop>
     const double layerTitleHeight = 48.0;
     final Size layerSize = constraints.biggest;
     final double layerTop = layerSize.height - layerTitleHeight;
+    final double layerBottom = layerTop + layerSize.height;
+
+    // Debug print statements
+    print("Layer Size: $layerSize");
+    print("Layer Top: $layerTop");
 
     //Create A relativerectween animation
     Animation<RelativeRect> layerAnimation = RelativeRectTween(
-      begin: RelativeRect.fromLTRB(
-          0.0, layerTop, 0.0, layerTop - layerSize.height),
+      begin: RelativeRect.fromLTRB(0.0, layerTop, 0.0, layerBottom),
       end: const RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
     ).animate(_controller.view);
+    //print out the current vlaues to help debug
+    layerAnimation.addListener(() {
+      print("Animation Value: ${layerAnimation.value}");
+    });
     return Stack(key: _backdropKey, children: <Widget>[
       // Wrap BackLayer in an ExcludeSemnatic Widget
       ExcludeSemantics(
@@ -86,12 +100,12 @@ class _BackdropState extends State<Backdrop>
       ),
       //add a positioned transition
       PositionedTransition(
-        rect: layerAnimation, 
-        child: _FrontLayer(
-          child: widget.frontLayer,
+          rect: layerAnimation,
+          child: _FrontLayer(
+            child: widget.frontLayer,
           )),
       //wrap front layer in _FrontLayer
-      _FrontLayer(child: widget.frontLayer),
+  
     ]);
   }
 
@@ -104,7 +118,11 @@ class _BackdropState extends State<Backdrop>
       //Replace leading menu icon with IconButton
       // remove leading property
       //create title with _BackdropTitle param
-      leading: const Icon(Icons.menu),
+      //replace leading menu icon with IconButton
+      leading: IconButton(
+        icon: const Icon(Icons.menu),
+        onPressed: _toggleBackdropLayerVisibility,
+      ),
       title: const Text('SHRINE'),
       actions: <Widget>[
         IconButton(
@@ -121,7 +139,10 @@ class _BackdropState extends State<Backdrop>
     return Scaffold(
         appBar: appBar,
         //return a layoutBuilderWidget
-        body: _buildStack());
+        body: LayoutBuilder(
+          builder:  _buildStack,
+          )
+        );
   }
 }
 

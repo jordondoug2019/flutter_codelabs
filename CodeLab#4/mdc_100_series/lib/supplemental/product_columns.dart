@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'package:shrine/model/products_repository.dart';
 
 import '../model/product.dart';
 import 'product_card.dart';
@@ -36,12 +37,14 @@ class TwoProductCardColumn extends StatelessWidget {
       double heightOfCards = (constraints.biggest.height - spacerHeight) / 2.0;
       double heightOfImages = heightOfCards - ProductCard.kTextBoxHeight;
       // TODO: Change imageAspectRatio calculation (104)
-      double imageAspectRatio = constraints.biggest.width / heightOfImages;
+      double imageAspectRatio = heightOfImages >= 0.0 ? 
+      constraints.biggest.width /heightOfImages : 49.0 / 33.0;
 
       // TODO: Replace Column with a ListView (104)
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      return ListView(
+       // mainAxisAlignment: MainAxisAlignment.center,
+        //crossAxisAlignment: CrossAxisAlignment.center,
+        physics: const ClampingScrollPhysics(),
         children: <Widget>[
           Padding(
             padding: const EdgeInsetsDirectional.only(start: 28.0),
@@ -77,12 +80,16 @@ class OneProductCardColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: Replace Column with a ListView (104)
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+    return ListView(
+      physics: const ClampingScrollPhysics(),
+      reverse: true,
       children: <Widget>[
-        ProductCard(
-          product: product,
-        ),
+        ConstrainedBox(constraints:
+        const BoxConstraints(
+          maxWidth: 550,
+        ), 
+        child: ProductCard(product: product,)),
+       
         const SizedBox(
           height: 40.0,
         ),
