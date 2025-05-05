@@ -19,11 +19,26 @@ import 'login.dart';
 import 'colors.dart';
 import 'model/product.dart';
 import 'supplemental/cut_corners_border.dart';
+import 'category_menu_page.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
-class ShrineApp extends StatelessWidget {
+class ShrineApp extends StatefulWidget {
+  
+
   const ShrineApp({Key? key}) : super(key: key);
 
+  @override
+  State<ShrineApp> createState() => _ShrineAppState();
+}
+
+class _ShrineAppState extends State<ShrineApp> {
+  Category _currentCategory = Category.all;
+
+  void _onCategoryTap(Category category) {
+    setState(() {
+      _currentCategory = category;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,24 +48,23 @@ class ShrineApp extends StatelessWidget {
         '/login': (BuildContext context) => const LoginPage(),
         // TODO: Change to a Backdrop with a HomePage frontLayer (104)
         '/': (BuildContext context) => Backdrop(
-          //Make currentCategory field take _currentCategory (104)
-          currentCategory: Category.all,
-        //  Pass _currentCategory for frontLayer (104)
-        frontLayer: const HomePage(),
-        //  Change backLayer field value to CategoryMenuPage (104)
-        backLayer: Container(color: kShrinePink100),
-        frontTitle: const Text('SHRINE'),
-        backTitle: const Text('MENU'),
-
-        ),
-        // TODO: Make currentCategory field take _currentCategory (104)
-        // TODO: Pass _currentCategory for frontLayer (104)
-        // TODO: Change backLayer field value to CategoryMenuPage (104)
+              //Make currentCategory field take _currentCategory (104)
+              currentCategory: _currentCategory,
+              //  Pass _currentCategory for frontLayer (104)
+              frontLayer: HomePage(currentCategory: _currentCategory, onCategoryTap: _onCategoryTap),
+              //  Change backLayer field value to CategoryMenuPage (104)
+              backLayer: CategoryMenuPage(
+                currentCategory: _currentCategory, 
+                onCategoryTap: _onCategoryTap),
+              frontTitle: const Text('SHRINE'),
+              backTitle: const Text('MENU'),
+            ),
       },
       // TODO: Customize the theme (103)
       theme: _kShrineTheme,
     );
   }
+  
 }
 
 // Build a Shrine Theme (103)

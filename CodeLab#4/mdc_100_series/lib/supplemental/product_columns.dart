@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:shrine/model/products_repository.dart';
+//import 'package:shrine/model/products_repository.dart';
 
 import '../model/product.dart';
 import 'product_card.dart';
