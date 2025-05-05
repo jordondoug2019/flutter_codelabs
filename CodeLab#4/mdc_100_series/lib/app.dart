@@ -51,7 +51,7 @@ class _ShrineAppState extends State<ShrineApp> {
               //Make currentCategory field take _currentCategory (104)
               currentCategory: _currentCategory,
               //  Pass _currentCategory for frontLayer (104)
-              frontLayer: HomePage(currentCategory: _currentCategory, onCategoryTap: _onCategoryTap),
+              frontLayer: HomePage(category: _currentCategory,),
               //  Change backLayer field value to CategoryMenuPage (104)
               backLayer: CategoryMenuPage(
                 currentCategory: _currentCategory, 

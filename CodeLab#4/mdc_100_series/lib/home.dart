@@ -21,9 +21,9 @@ import 'model/products_repository.dart';
 class HomePage extends StatelessWidget {
   const HomePage(
       {this.category = Category.all,
-      Key? key,
-      required Category currentCategory,
-      required void Function(Category category) onCategoryTap})
+      Key? key})
+      //required Category currentCategory,
+      //required void Function(Category category) onCategoryTap})
       : super(key: key);
   //add a variable for category
   final Category category;
