@@ -148,6 +148,7 @@ class _BackdropState extends State<
           //uses this to animate the front layer
           rect: layerAnimation,
           child: _FrontLayer(
+            onTap: _toggleBackdropLayerVisibility,
             child: widget.frontLayer,
           )),
       //wrap front layer in _FrontLayer
@@ -197,9 +198,12 @@ class _BackdropState extends State<
 //Important for visual appearance and elevation
 //Used to add a cut in the upper left corner
 class _FrontLayer extends StatelessWidget {
+
   //add on tap callback
+  //  final VoidCallback? onTap;
   const _FrontLayer({
     Key? key,
+    this.onTap,
     required this.child,
   }) : super(key: key);
 //on-tap callback to the backdrop layer
