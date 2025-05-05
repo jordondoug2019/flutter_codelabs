@@ -202,7 +202,8 @@ class _FrontLayer extends StatelessWidget {
     Key? key,
     required this.child,
   }) : super(key: key);
-
+//on-tap callback to the backdrop layer
+  final VoidCallback? onTap;
   final Widget child;
 
 //Uswed BeveledRectangleBorder and Expanded to stretch the child widget
@@ -217,6 +218,14 @@ class _FrontLayer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             //Add a gesture dector
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: onTap,
+              child: Container (
+                height: 40.0,
+                alignment: AlignmentDirectional.centerStart,
+              ),
+            ),
             Expanded(
               child: child,
             )
