@@ -237,3 +237,59 @@ class _FrontLayer extends StatelessWidget {
         ));
   }
 }
+
+class _BackdropTitle class extends AnimatedWidget{
+  final void Function() onPress;
+  final Widget frontTitle;
+  final Widget backTitle;
+
+  const _BackdropTitle ({
+    Key? key,
+    required Animastion<double> listenable, 
+    required this.onPress, 
+    required this.frontTitle,
+    required this.backTitle,
+  }) : _listenable = listenable,
+       super(key: key, listenable: listenable);
+
+       final Animation<double> _listenable;
+
+       @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = _listenable;
+
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.titleLarge!,
+      softWrap: false,
+      overflow: TextOverflow.ellipsis,
+      child: Row(
+        children: <Widget>[
+          //branded icon
+          SizedBox(
+            width: 72.0,
+            child: IconButton(
+              padding: const EdgeInsets.only(right: 8.0),
+              onPressed: this.onPress,
+            icon: Stack(
+              children: <Widget>[
+                Opacity(
+                  opacity: animation.value,
+                  child: const ImageIcon(AssetImage('assets/slanted_menu.png'))
+                  ),
+                  FractionalTranslation(
+                    translation: Tween <Offset>(
+                      begin: Offset.zero,
+                      end: const Offset(1.0, 1.0)
+                    ).evaluate(animation),
+                    child: const ImageIcon(AssetImage('assers/diamon.png')),
+                    )
+              ]),
+              ),
+          ),
+          //Here, we make a custom cross fade between  backTitle and frontTitle.
+          //This makes a smooth transition
+        ],)
+    );
+
+  }
+}
