@@ -41,6 +41,98 @@ class Backdrop extends StatefulWidget {
   _BackdropState createState() => _BackdropState();
 }
 
+class _BackdropTitle extends AnimatedWidget {
+  final void Function() onPress;
+  final Widget frontTitle;
+  final Widget backTitle;
+
+  const _BackdropTitle({
+    Key? key,
+    required Animation<double> listenable,
+    required this.onPress,
+    required this.frontTitle,
+    required this.backTitle,
+  })  : _listenable = listenable,
+        super(key: key, listenable: listenable);
+
+  final Animation<double> _listenable;
+
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = _listenable;
+
+    return DefaultTextStyle(
+        style: Theme.of(context).textTheme.titleLarge!,
+        softWrap: false,
+        overflow: TextOverflow.ellipsis,
+        child: Row(
+          children: <Widget>[
+            //branded icon
+            SizedBox(
+              width: 72.0,
+              child: IconButton(
+                padding: const EdgeInsets.only(right: 8.0),
+                onPressed: this.onPress,
+                icon: Stack(children: <Widget>[
+                  Opacity(
+                      opacity: animation.value,
+                      child: const ImageIcon(
+                          AssetImage('assets/slanted_menu.png'))),
+                  FractionalTranslation(
+                    translation: Tween<Offset>(
+                            begin: Offset.zero, end: const Offset(1.0, 0.0))
+                        .evaluate(animation),
+                    child: const ImageIcon(AssetImage('assets/diamond.png')),
+                  )
+                ]),
+              ),
+            ),
+            //Here, we make a custom cross fade between  backTitle and frontTitle.
+            //This makes a smooth transition
+            AnimatedBuilder(
+                animation: animation,
+                builder: (context, child) {
+                  final Animation<double> backOpacity = CurvedAnimation(
+                    parent: ReverseAnimation(animation),
+                    curve: const Interval(0.5, 1.0),
+                  );
+                  final Animation<double> frontOpacity = CurvedAnimation(
+                    parent: animation,
+                    curve: const Interval(0.5, 1.0),
+                  );
+
+                  final Offset backTranslation = Tween<Offset>(
+                    begin: Offset.zero,
+                    end: const Offset(0.5, 0.0),
+                  ).evaluate(animation);
+
+                  final Offset frontTranslation = Tween<Offset>(
+                    begin: const Offset(-0.25, 0.0),
+                    end: Offset.zero,
+                  ).evaluate(animation);
+
+                  return Stack(children: <Widget>[
+                    Opacity(
+                      opacity: backOpacity.value,
+                      child: FractionalTranslation(
+                        translation: backTranslation,
+                        child: backTitle,
+                      ),
+                    ),
+                    Opacity(
+                      opacity: frontOpacity.value,
+                      child: FractionalTranslation(
+                        translation: frontTranslation,
+                        child: frontTitle,
+                      ),
+                    ),
+                  ]);
+                })
+          ],
+        ));
+  }
+}
+
 class _BackdropState extends State<
         Backdrop> //State object for the Backdrop widget (defined earlier)
     with
@@ -115,7 +207,7 @@ class _BackdropState extends State<
   //Add BuildCOntext and BoxCOnstraints parameters to _buildStack
   //LayoutBuilder calls this to dynamically lay out the widget tree based on screen size
   //_BuildStack() is the UI Layers
-  Widget _buildStack(BuildContext contect, BoxConstraints constraints) {
+  Widget _buildStack(BuildContext context, BoxConstraints constraints) {
     const double layerTitleHeight = 48.0;
     final Size layerSize = constraints.biggest;
     final double layerTop = layerSize.height -
@@ -167,11 +259,12 @@ class _BackdropState extends State<
       // remove leading property
       //create title with _BackdropTitle param
       //replace leading menu icon with IconButton
-      leading: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: _toggleBackdropLayerVisibility,
+      title: _BackdropTitle(
+        listenable: _controller.view,
+        onPress: _toggleBackdropLayerVisibility,
+        frontTitle: widget.frontTitle,
+        backTitle: widget.backTitle,
       ),
-      title: const Text('SHRINE'),
       actions: <Widget>[
         IconButton(
           icon: const Icon(
@@ -198,7 +291,6 @@ class _BackdropState extends State<
 //Important for visual appearance and elevation
 //Used to add a cut in the upper left corner
 class _FrontLayer extends StatelessWidget {
-
   //add on tap callback
   //  final VoidCallback? onTap;
   const _FrontLayer({
@@ -225,7 +317,7 @@ class _FrontLayer extends StatelessWidget {
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: onTap,
-              child: Container (
+              child: Container(
                 height: 40.0,
                 alignment: AlignmentDirectional.centerStart,
               ),
@@ -238,58 +330,83 @@ class _FrontLayer extends StatelessWidget {
   }
 }
 
-class _BackdropTitle class extends AnimatedWidget{
-  final void Function() onPress;
-  final Widget frontTitle;
-  final Widget backTitle;
+// class _BackdropTitle class extends AnimatedWidget{
+//   final void Function() onPress;
+//   final Widget frontTitle;
+//   final Widget backTitle;
 
-  const _BackdropTitle ({
-    Key? key,
-    required Animastion<double> listenable, 
-    required this.onPress, 
-    required this.frontTitle,
-    required this.backTitle,
-  }) : _listenable = listenable,
-       super(key: key, listenable: listenable);
+//   const _BackdropTitle ({
+//     Key? key,
+//     required Animastion<double> listenable, 
+//     required this.onPress, 
+//     required this.frontTitle,
+//     required this.backTitle,
+//   }) : _listenable = listenable,
+//        super(key: key, listenable: listenable);
 
-       final Animation<double> _listenable;
+//        final Animation<double> _listenable;
 
-       @override
-  Widget build(BuildContext context) {
-    final Animation<double> animation = _listenable;
+//        @override
+//   Widget build(BuildContext context) {
+//     final Animation<double> animation = _listenable;
 
-    return DefaultTextStyle(
-      style: Theme.of(context).textTheme.titleLarge!,
-      softWrap: false,
-      overflow: TextOverflow.ellipsis,
-      child: Row(
-        children: <Widget>[
-          //branded icon
-          SizedBox(
-            width: 72.0,
-            child: IconButton(
-              padding: const EdgeInsets.only(right: 8.0),
-              onPressed: this.onPress,
-            icon: Stack(
-              children: <Widget>[
-                Opacity(
-                  opacity: animation.value,
-                  child: const ImageIcon(AssetImage('assets/slanted_menu.png'))
-                  ),
-                  FractionalTranslation(
-                    translation: Tween <Offset>(
-                      begin: Offset.zero,
-                      end: const Offset(1.0, 1.0)
-                    ).evaluate(animation),
-                    child: const ImageIcon(AssetImage('assers/diamon.png')),
-                    )
-              ]),
-              ),
-          ),
-          //Here, we make a custom cross fade between  backTitle and frontTitle.
-          //This makes a smooth transition
-        ],)
-    );
+//     return DefaultTextStyle(
+//       style: Theme.of(context).textTheme.titleLarge!,
+//       softWrap: false,
+//       overflow: TextOverflow.ellipsis,
+//       child: Row(
+//         children: <Widget>[
+//           //branded icon
+//           SizedBox(
+//             width: 72.0,
+//             child: IconButton(
+//               padding: const EdgeInsets.only(right: 8.0),
+//               onPressed: this.onPress,
+//             icon: Stack(
+//               children: <Widget>[
+//                 Opacity(
+//                   opacity: animation.value,
+//                   child: const ImageIcon(AssetImage('assets/slanted_menu.png'))
+//                   ),
+//                   FractionalTranslation(
+//                     translation: Tween <Offset>(
+//                       begin: Offset.zero,
+//                       end: const Offset(1.0, 1.0)
+//                     ).evaluate(animation),
+//                     child: const ImageIcon(AssetImage('assers/diamon.png')),
+//                     )
+//               ]),
+//               ),
+//           ),
+//           //Here, we make a custom cross fade between  backTitle and frontTitle.
+//           //This makes a smooth transition
+//           Stack(
+//             children: <Widget>[
+//               Opacity(
+//                 opacity: CurvedAnimation(
+//                   parent: ReverseAnimation(animation), 
+//                   curve: const Interval(0.5, 1.0),).value,
+//                   child: FractionalTranslation(
+//                     translation: Tween<Offset>(
+//                       begin: Offset.zero,
+//                       end: const Offset(0.5, 0.0), ).evaluate(animation),
+//                       child: backTitle,
+//                       ),
+//               ),
+//               Opacity(
+//                 opacity: CurvedAnimation(
+//                   parent: animation, 
+//                   curve: const Interval(0.5, 1.0),).value,
+//                   child: FractionalTranslation(
+//                     translation: Tween<Offset> (
+//                       begin: const Offset(-0.25, 0.0),
+//                       end: Offset.zero,
+//                       ).evaluate(animation),
+//                       child: frontTitle,))
+//             ],
+//           )
+//         ],)
+//     );
 
-  }
-}
+//   }
+// }
